@@ -16,16 +16,28 @@
 
 #pragma once
 
-/* Split handedness is read from each half's own EEPROM instead of being derived
- * from which half carries the USB cable (the MASTER_LEFT default, where any half
- * with a cable declares itself the left half and the board mirrors itself). The
- * side is written together with the firmware by the EEPROM image that the AVR
- * `dfu-split-left` / `dfu-split-right` targets bundle in.
- *
- * As with any split: one USB cable at a time. With both halves connected over
- * USB each becomes a master on the same half-duplex serial link. */
-#define EE_HANDS
+/* Split handedness: the half that carries the USB cable is the left half, which
+ * is QMK's default for the KLOR. The same firmware image therefore goes onto
+ * both halves, with no per-half EEPROM image to write. */
+#define MASTER_LEFT
+
+/* Master/slave detection: with plain VBUS detection both halves can consider
+ * themselves master (and then nothing crosses the half-duplex serial link),
+ * so delegate by an actually established USB connection instead. */
+#define SPLIT_USB_DETECT
+
+/* The AVR bit-bang serial is timing tuned for the compiler QMK ships with; with
+ * a much newer avr-gcc (15.x here) the default ~137 kbps setting leaves very
+ * little timing margin, so run the link one step slower (~75 kbps). */
+#define SELECT_SOFT_SERIAL_SPEED 2
+
 
 /* Upstream UID from GEIGEIGEIST/qmk-config-klor, so Vial keeps recognising the
  * keyboard as the same device and an existing EEPROM keymap stays valid. */
 #define VIAL_KEYBOARD_UID {0xBA, 0x38, 0x22, 0x3F, 0x8C, 0x42, 0x0F, 0x44}
+
+/* Space savers for the 28 KiB ATmega32U4 flash budget. */
+#undef LOCKING_SUPPORT_ENABLE
+#undef LOCKING_RESYNC_ENABLE
+#define NO_ACTION_ONESHOT
+#define NO_MUSIC_MODE

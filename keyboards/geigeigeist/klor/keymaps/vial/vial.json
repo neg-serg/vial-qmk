@@ -2,7 +2,7 @@
 	"name": "Klor",
 	"vendorId": "0xFC32",
 	"productId": "0x0287",
-	"lighting": "vialrgb",
+	"lighting": "none",
 	"matrix": {
 		"rows": 8,
 		"cols": 6
