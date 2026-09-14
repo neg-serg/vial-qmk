@@ -41,3 +41,16 @@
 #undef LOCKING_RESYNC_ENABLE
 #define NO_ACTION_ONESHOT
 #define NO_MUSIC_MODE
+
+/* Dynamic keymap layers. The ATmega32U4 has 1 KiB of EEPROM; the dynamic keymap
+ * starts at VIA_EEPROM_CONFIG_END (41 B), each layer costs
+ * MATRIX_ROWS*MATRIX_COLS*2 = 96 B plus NUM_ENCODERS*4 = 8 B for encoders, and
+ * Vial requires >=100 B left over for dynamic macros (ceiling: 923 B). */
+#define DYNAMIC_KEYMAP_LAYER_COUNT 7
+
+/* Vial defaults each dynamic table to 8 entries because the EEPROM is >1000 B;
+ * four is enough here and keeps the per-layer EEPROM budget balanced. */
+#define VIAL_TAP_DANCE_ENTRIES 4
+#define VIAL_COMBO_ENTRIES 4
+#define VIAL_KEY_OVERRIDE_ENTRIES 4
+#define VIAL_ALT_REPEAT_KEY_ENTRIES 4

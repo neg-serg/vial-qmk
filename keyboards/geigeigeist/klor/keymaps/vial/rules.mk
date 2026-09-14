@@ -13,8 +13,10 @@ VIAL_INSECURE = yes
 # the bootloader only flashes past and boots the application again.
 BOOTLOADER = caterina
 
-# The status screen reports the typing speed.
-WPM_ENABLE = yes
+# The OLED status screen and its WPM readout are disabled: together they cost
+# ~5.4 KiB of ATmega32U4 flash, which the Vial dynamic modules below need.
+OLED_ENABLE = no
+WPM_ENABLE = no
 
 
 # The RGB matrix is off, so the keyboard definition ships with
@@ -35,14 +37,15 @@ MOUSEKEY_ENABLE = no
 HAPTIC_ENABLE = no
 BOOTMAGIC_ENABLE = no
 
-# Vial modules disabled to save flash.
+# Vial dynamic modules. Each costs both flash and EEPROM; the entry counts and
+# the layer count in config.h are budgeted around the AVR's 1 KiB EEPROM.
 QMK_SETTINGS = no
-TAP_DANCE_ENABLE = no
-COMBO_ENABLE = no
-KEY_OVERRIDE_ENABLE = no
+TAP_DANCE_ENABLE = yes
+COMBO_ENABLE = yes
+KEY_OVERRIDE_ENABLE = yes
 CAPS_WORD_ENABLE = no
 LAYER_LOCK_ENABLE = no
-REPEAT_KEY_ENABLE = no
+REPEAT_KEY_ENABLE = yes
 
 # QMK defaults that are dead weight here.
 SPACE_CADET_ENABLE = no
