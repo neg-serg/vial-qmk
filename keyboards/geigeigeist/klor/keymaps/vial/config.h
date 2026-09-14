@@ -48,9 +48,11 @@
  * Vial requires >=100 B left over for dynamic macros (ceiling: 923 B). */
 #define DYNAMIC_KEYMAP_LAYER_COUNT 7
 
-/* Vial defaults each dynamic table to 8 entries because the EEPROM is >1000 B;
- * four is enough here and keeps the per-layer EEPROM budget balanced. */
+/* Vial defaults each dynamic table to 8 entries because the EEPROM is >1000 B.
+ * Tap dance and combos keep four; key overrides need five (the Ctrl+Q/E/A/D/H
+ * rules) and that lands the layout exactly on the 923-byte ceiling, leaving the
+ * 100-byte minimum for dynamic macros. */
 #define VIAL_TAP_DANCE_ENTRIES 4
 #define VIAL_COMBO_ENTRIES 4
-#define VIAL_KEY_OVERRIDE_ENTRIES 4
+#define VIAL_KEY_OVERRIDE_ENTRIES 5
 #define VIAL_ALT_REPEAT_KEY_ENTRIES 4
