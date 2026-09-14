@@ -59,6 +59,22 @@ static void put_flag(uint8_t col, uint8_t line, const char *text, bool active) {
     oled_write(&text[len], false);
 }
 
+// Print a value right-aligned to right_col, so its ones column does not move
+// when the value grows.
+static void put_num(uint8_t right_col, uint8_t line, uint8_t value) {
+    char    buf[4];
+    uint8_t digits = value >= 100 ? 3 : (value >= 10 ? 2 : 1);
+
+    for (uint8_t i = 0; i < digits; i++) {
+        buf[digits - 1 - i] = '0' + value % 10;
+        value /= 10;
+    }
+    buf[digits] = '\0';
+
+    oled_set_cursor(right_col + 1 - digits, line);
+    oled_write(buf, false);
+}
+
 static void two_digits(uint8_t value, char *out) {
     out[0] = '0' + value / 10;
     out[1] = '0' + value % 10;
@@ -197,17 +213,13 @@ static void status_screen(void) {
     put_flag(4, 5, "CAPS ", leds.caps_lock);
     put_flag(9, 5, "SCR", leds.scroll_lock);
 
+    // get_current_wpm() is a uint8_t, so the value needs up to three digits.
     uint8_t wpm = get_current_wpm();
-    if (wpm > 99) {
-        wpm = 99;
-    }
     put(0, 6, "WPM ");
     if (wpm) {
-        char buf[3];
-        two_digits(wpm, buf);
-        put(4, 6, buf);
+        put_num(6, 6, wpm);
     } else {
-        put(4, 6, "--");
+        put(5, 6, "--");
     }
 
     // Uptime, hh:mm:ss since power on.
