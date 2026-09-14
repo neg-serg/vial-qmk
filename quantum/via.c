@@ -431,8 +431,11 @@ void raw_hid_receive(uint8_t *data, uint8_t length) {
                 dynamic_keymap_set_buffer(offset, size, &command_data[3]);
             break;
         }
-#if defined(VIAL_ENABLE) && !defined(VIAL_INSECURE)
-        /* As VIA removed bootloader jump entirely, we shall only keep it for secure builds */
+#ifdef VIAL_ENABLE
+        /* VIA removed the bootloader jump entirely; Vial keeps it. The jump is
+         * gated on the unlock state, and VIAL_INSECURE builds are always
+         * unlocked, so the host can drop the keyboard into the bootloader right
+         * before a flash instead of having to tap QK_BOOT first. */
         case id_bootloader_jump: {
             /* Until keyboard is unlocked, don't allow jumping to bootloader */
             if (!vial_unlocked)
@@ -445,8 +448,6 @@ void raw_hid_receive(uint8_t *data, uint8_t length) {
             bootloader_jump();
             break;
         }
-#endif
-#ifdef VIAL_ENABLE
         case id_vial_prefix: {
             vial_handle_cmd(data, length);
             break;

@@ -56,3 +56,9 @@
 #define VIAL_COMBO_ENTRIES 4
 #define VIAL_KEY_OVERRIDE_ENTRIES 5
 #define VIAL_ALT_REPEAT_KEY_ENTRIES 4
+
+/* Bootmagic: the default position (0,0) is the break-off outer column, which is
+ * not populated on this build, so point it at Q (row 0, column 1). Holding Q
+ * while plugging the USB cable in enters the Caterina bootloader. */
+#define BOOTMAGIC_ROW 0
+#define BOOTMAGIC_COLUMN 1
