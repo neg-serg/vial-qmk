@@ -13,6 +13,9 @@ VIAL_INSECURE = yes
 # the bootloader only flashes past and boots the application again.
 BOOTLOADER = caterina
 
+# The status screen reports the typing speed.
+WPM_ENABLE = yes
+
 
 # The RGB matrix is off, so the keyboard definition ships with
 # "lighting": "none" and Vial skips the VialRGB handshake that would otherwise
